@@ -1,0 +1,47 @@
+.modal__content_type_item {
+  width: 480px; /* modified from last project to fix image covering whole page */
+}
+
+.modal__close-button_type_item {
+  top: 24px;
+  right: 24px;
+  background-color: #ffffff;
+}
+
+.modal__close-button_type_item:hover {
+  background-color: rgba(0, 0, 0, 0.3);
+}
+
+.item-modal__restaurant-image {
+  border-radius: 20px 20px 0 0;
+  width: 100%;
+  max-height: 300px; /* modified */
+  object-fit: cover; /* modified */
+}
+
+.item-modal__info {
+  padding: 20px 32px 32px;
+}
+
+.item-modal__restaurant-name {
+  font-family: "Cabinet Grotesk", sans-serif;
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 1.2;
+  color: #000000;
+  margin: 0 0 12px;
+  padding: 0;
+}
+
+.item-modal__delete-button {
+  font-family: "Cabinet Grotesk", sans-serif;
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 1.2;
+  color: #ff4d00;
+  background: none;
+  border: none;
+  margin: 0;
+  padding: 0;
+  cursor: pointer;
+}
