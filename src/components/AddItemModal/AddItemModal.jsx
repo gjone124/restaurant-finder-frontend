@@ -12,12 +12,25 @@ function AddItemModal({ onClose, activeModal, onAddItemModalSubmit }) {
     website: "",
   });
 
+  const [imageFile, setImageFile] = useState(null);
+
   const handleChange = (event) => {
     const { name, value } = event.target;
     setItemData((previousItemData) => ({
       ...previousItemData,
       [name]: value,
     }));
+  };
+
+  const handleFileChange = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      setImageFile(file);
+      setItemData((previousItemData) => ({
+        ...previousItemData,
+        image: URL.createObjectURL(file), // Set image URL to preview uploaded file
+      }));
+    }
   };
 
   const handleSubmit = (event) => {
@@ -37,6 +50,7 @@ function AddItemModal({ onClose, activeModal, onAddItemModalSubmit }) {
       image: "",
       website: "",
     });
+    setImageFile(null); // clear image file after submission
   };
 
   return (
@@ -100,6 +114,18 @@ function AddItemModal({ onClose, activeModal, onAddItemModalSubmit }) {
           placeholder="Image URL or Image Upload"
           onChange={handleChange}
           value={itemData.image}
+        />
+      </label>
+
+      <label htmlFor="restaurant-image-upload" className="modal-form__label">
+        Or Upload Image{" "}
+        <input
+          name="imageFile"
+          type="file"
+          className="modal-form__input"
+          id="restaurant-image-upload"
+          accept="image/*"
+          onChange={handleFileChange}
         />
       </label>
 

@@ -1,19 +1,33 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 
 import "./Header.css";
 import logo from "../../assets/logo.svg";
 import avatar from "../../assets/avatar.svg";
 import SearchBarForm from "../SearchBarForm/SearchBarForm";
+import { fetchUserLocation } from "../../utils/googlePlacesApi";
 
 function Header({ handleAddModalClick, setRestaurantItems }) {
+  const [userLocation, setUserLocation] = useState(
+    "Fetching user's location..."
+  );
   const currentDate = new Date().toLocaleString("default", {
     month: "long",
     day: "numeric",
     year: "numeric",
   });
 
-  const location = useLocation(); // get current path (or page route)
+  const currentUrl = useLocation(); // get current Url path (or page route)
+
+  // fetch user's location on component mount
+  useEffect(() => {
+    fetchUserLocation()
+      .then((userLocation) => setUserLocation(userLocation))
+      .catch((error) => {
+        console.error("Error fetching user location:", error);
+        setUserLocation("User's location unavailable");
+      });
+  }, []);
 
   return (
     <header className="header">
@@ -25,18 +39,22 @@ function Header({ handleAddModalClick, setRestaurantItems }) {
             alt="Restaurant Finder Logo"
           />
         </Link>
-        <p className="header__date-and-location">{currentDate}, LOCATION</p>
+        <div className="header__date-and-location-container">
+          <p className="header__date">{currentDate}</p>
+          {/* {userLocation} => replace "LOCATION" below this with this value */}
+          <p className="header__location">LOCATION</p>
+        </div>
       </div>
 
       {/* conditionally render SearchBarForm based on current path
       so it only displays on Main page */}
-      {location.pathname !== "/profile" && (
+      {currentUrl.pathname !== "/profile" && (
         <SearchBarForm setRestaurantItems={setRestaurantItems} />
       )}
 
       {/* conditionally render "Add Restaurant" button based on current path
       so it only displays on Profile page */}
-      {location.pathname !== "/" && (
+      {currentUrl.pathname !== "/" && (
         <button
           onClick={handleAddModalClick}
           type="button"

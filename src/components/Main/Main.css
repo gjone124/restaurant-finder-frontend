@@ -1,3 +1,7 @@
+.main {
+  width: 100%;
+}
+
 .main__items {
   display: flex;
   flex-wrap: wrap;

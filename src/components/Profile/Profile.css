@@ -1,4 +1,15 @@
 .profile {
   display: flex;
   gap: 100px;
+  min-height: 500px;
+  width: 100%;
+}
+
+.profile__restaurant-section {
+  flex-grow: 1;
+  width: 100%;
+}
+
+.profile__side-bar {
+  flex: 0 0 229px;
 }

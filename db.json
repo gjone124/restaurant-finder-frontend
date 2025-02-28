@@ -39,6 +39,14 @@
       "address": "555 8th St NW, Washington DC 20004",
       "image": "https://media-cdn.tripadvisor.com/media/photo-s/1b/48/c1/4e/buffet-table-for-special.jpg",
       "website": "https://dirtyhabitdc.com"
+    },
+    {
+      "name": "McDonald's",
+      "cuisine": "American",
+      "address": "123",
+      "image": "blob:http://localhost:4000/e7b68f32-6b2c-46ad-8c06-7f1318337222",
+      "website": "http://test1.com",
+      "_id": 6
     }
   ]
 }

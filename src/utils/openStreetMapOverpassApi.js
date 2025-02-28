@@ -3,8 +3,7 @@ export const fetchOSMCuisineData = async (lat, lon) => {
   // Build a query to find restaurants near the given coordinates
   const overpassQuery = `[out:json];
       node(around:300, ${lat}, ${lon})["amenity"="restaurant"];
-      way(around:300, ${lat}, ${lon})["amenity"="restaurant"];
-      relation(around:300, ${lat}, ${lon})["amenity"="restaurant"];
+      
       out tags center;`;
 
   try {

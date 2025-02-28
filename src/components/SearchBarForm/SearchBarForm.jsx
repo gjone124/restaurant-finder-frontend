@@ -9,7 +9,8 @@ const SearchBarForm = ({ setRestaurantItems }) => {
 
   const handleChange = (e) => {
     setQuery(e.target.value);
-    console.log(setQuery(), e.target.value);
+    // console.log(e.target.value);
+    // console.log(query);
   };
 
   const searchRestaurants = async () => {

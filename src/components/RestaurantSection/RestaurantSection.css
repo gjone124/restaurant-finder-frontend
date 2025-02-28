@@ -1,3 +1,7 @@
+.restaurant-section {
+  width: 100%;
+}
+
 .restaurant-section__header {
   display: flex;
   flex-direction: row;
@@ -17,6 +21,7 @@
   padding: 0;
   list-style-type: none;
   gap: 21px;
+  width: 100%;
 }
 
 .restaurant-section__button {
