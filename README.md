@@ -2,4 +2,4 @@
 
 <br>**Link To Back End Application Of This Project**
 
-https://github.com/gjone124/se_project_express
+https://github.com/gjone124/restaurant-finder-backend
