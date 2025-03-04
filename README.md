@@ -23,3 +23,7 @@
 **Link To Back End Application Of This Project**
 
 https://github.com/gjone124/restaurant-finder-backend
+
+**Future Modifications**
+
+I plan to fully implement the backend for this project like the WTWR project does.
