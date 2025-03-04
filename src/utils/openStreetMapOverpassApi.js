@@ -1,10 +1,13 @@
 // Fetch cuisine type from OpenStreetMap Overpass API
-export const fetchOSMCuisineData = async (lat, lon) => {
+
+// compares coordinates & the restaurant name for the Google Places API
+// & the Overpass API in order to find a matching restaurant
+// & then set the cuisine value to that restaurant
+export const fetchOSMCuisineData = async (lat, lon, restaurantName) => {
   // Build a query to find restaurants near the given coordinates
   const overpassQuery = `[out:json];
-      node(around:300, ${lat}, ${lon})["amenity"="restaurant"];
-      
-      out tags center;`;
+        node(around:300, ${lat}, ${lon})["amenity"="restaurant"];
+        out tags center;`;
 
   try {
     const response = await fetch("https://overpass-api.de/api/interpreter", {
@@ -17,8 +20,79 @@ export const fetchOSMCuisineData = async (lat, lon) => {
 
     const data = await response.json();
 
+    // added for testing purposes (console.log statement)
     if (data.elements && data.elements.length > 0) {
-      // Find the closest restaurant with cuisine information
+      data.elements.forEach((element) => {
+        if (element.tags && element.tags.cuisine) {
+          console.log(
+            `OSM Restaurant Found - Name: ${
+              element.tags.name || "Unknown"
+            }, Lat: ${element.lat || element.center?.lat}, Lng: ${
+              element.lon || element.center?.lon
+            }, Cuisine: ${element.tags.cuisine}`
+          );
+        }
+      });
+    }
+
+    if (data.elements && data.elements.length > 0) {
+      // First try to find a restaurant with a matching name
+      const normalizedSearchName = restaurantName.toLowerCase().trim();
+
+      // Look for exact or similar name matches first
+      const matchingRestaurants = data.elements.filter((element) => {
+        if (element.tags && element.tags.name) {
+          const osmName = element.tags.name.toLowerCase().trim();
+          return (
+            osmName.includes(normalizedSearchName) ||
+            normalizedSearchName.includes(osmName)
+          );
+        }
+        return false;
+      });
+
+      // If we found matching restaurant(s), use the cuisine from the first match with cuisine info
+      if (matchingRestaurants.length > 0) {
+        const matchWithCuisine = matchingRestaurants.find(
+          (element) => element.tags && element.tags.cuisine
+        );
+
+        if (matchWithCuisine) {
+          console.log(
+            `Found matching restaurant: ${matchWithCuisine.tags.name} with cuisine: ${matchWithCuisine.tags.cuisine}`
+          );
+          return matchWithCuisine.tags.cuisine;
+        }
+      }
+
+      // For chain restaurants with known cuisines, you can hardcode them
+      const knownCuisines = {
+        "mcdonald's": "fast_food;burger",
+        "burger king": "fast_food;burger",
+        wendys: "fast_food;burger",
+        "pizza hut": "pizza",
+        dominos: "pizza",
+        "taco bell": "mexican;fast_food",
+        kfc: "chicken;fast_food",
+        subway: "sandwich;fast_food",
+        chipotle: "mexican",
+        "olive garden": "italian",
+        "outback steakhouse": "steak",
+        applebees: "american",
+        chilis: "american",
+      };
+
+      // Check if this is a known chain restaurant
+      for (const [chain, cuisine] of Object.entries(knownCuisines)) {
+        if (normalizedSearchName.includes(chain)) {
+          console.log(
+            `Using known cuisine for chain restaurant: ${restaurantName} → ${cuisine}`
+          );
+          return cuisine;
+        }
+      }
+
+      // If no match found, then look for restaurants with cuisine info by proximity
       const restaurantsWithCuisine = data.elements.filter(
         (element) => element.tags && element.tags.cuisine
       );
@@ -47,32 +121,16 @@ export const fetchOSMCuisineData = async (lat, lon) => {
           { distance: Infinity }
         );
 
+        console.log(
+          `No exact match found, using closest restaurant's cuisine as fallback: ${closestRestaurant.tags.cuisine}`
+        );
         return closestRestaurant.tags.cuisine || "Unknown";
       }
     }
+
     return "Unknown";
   } catch (error) {
     console.error("Error fetching OpenStreetMap cuisine data:", error);
     return "Unknown";
   }
 };
-
-// Helper function to calculate distance between two points
-function calculateDistance(lat1, lon1, lat2, lon2) {
-  const R = 6371; // Radius of the earth in km
-  const dLat = deg2rad(lat2 - lat1);
-  const dLon = deg2rad(lon2 - lon1);
-  const a =
-    Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-    Math.cos(deg2rad(lat1)) *
-      Math.cos(deg2rad(lat2)) *
-      Math.sin(dLon / 2) *
-      Math.sin(dLon / 2);
-  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-  const d = R * c; // Distance in km
-  return d;
-}
-
-function deg2rad(deg) {
-  return deg * (Math.PI / 180);
-}

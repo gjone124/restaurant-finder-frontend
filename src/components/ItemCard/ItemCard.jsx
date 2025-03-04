@@ -27,6 +27,11 @@ function ItemCard({ item, onCardClick }) {
             </a>
           )}
         </p>
+        {item.distance && (
+          <p className="item-card__distance">
+            Distance From User in Miles: {item.distance}
+          </p>
+        )}
       </div>
       <div className="item-card__image-container">
         <img

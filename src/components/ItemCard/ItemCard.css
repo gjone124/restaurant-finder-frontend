@@ -51,7 +51,17 @@
   color: #4a4a4a;
 }
 
-.item-card__restaurant-address,
+.item-card__restaurant-address {
+  margin: 0;
+  font-size: 14px;
+  color: #6a6a6a;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+}
+
 .item-card__restaurant-website {
   margin: 0;
   font-size: 14px;

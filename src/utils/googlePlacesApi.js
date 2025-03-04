@@ -4,13 +4,12 @@ export const fetchGooglePlacesData = async (query) => {
 
   // IMPORTANT: In a production environment, this request should be proxied through a backend server
   // Direct frontend calls to Google Places API will typically be blocked by CORS
-  const proxyUrl = "http://localhost:4002/api/proxy"; // Set up a proxy endpoint on your backend
+  const proxyUrl = "http://localhost:4002/api/proxy"; // proxy endpoint on backend is needed to run Google Places API
   const googlePlacesUrl = `https://maps.googleapis.com/maps/api/place/textsearch/json?query=${encodeURIComponent(
     query
   )}&type=restaurant&key=${GOOGLE_PLACES_API_KEY}`;
 
   try {
-    // For development, you might use a CORS proxy or local backend proxy
     const response = await fetch(proxyUrl, {
       method: "POST",
       headers: {
@@ -21,10 +20,15 @@ export const fetchGooglePlacesData = async (query) => {
 
     const data = await response.json();
 
+    console.log(`Searching for: ${query}`);
+
     if (data.results && data.results.length > 0) {
       // Process each place to get additional details including photos
       const placesWithDetails = await Promise.all(
         data.results.slice(0, 6).map(async (place) => {
+          console.log(
+            `Google Places Result - Name: ${place.name}, Lat: ${place.geometry.location.lat}, Lng: ${place.geometry.location.lng}`
+          );
           // Get place details to retrieve website and other information
           const detailsUrl = `https://maps.googleapis.com/maps/api/place/details/json?place_id=${place.place_id}&fields=name,formatted_address,website,photos&key=${GOOGLE_PLACES_API_KEY}`;
 
@@ -121,7 +125,14 @@ export const fetchUserLocation = async () => {
               formattedLocation = `${city}, ${stateOrRegion}, UK`; // UK regions (England, Wales, etc.)
             }
 
-            resolve(formattedLocation);
+            // create coordinates object
+            const coordinates = {
+              lat: latitude,
+              lng: longitude,
+            };
+
+            // return both formatted location and coordinates
+            resolve({ formattedLocation, coordinates });
           } catch (error) {
             console.error("Error fetching reverse geocode data:", error);
             reject(error);
@@ -136,4 +147,29 @@ export const fetchUserLocation = async () => {
       reject(new Error("Geolocation is not supported by this browser."));
     }
   });
+};
+
+export const getDistanceFromUser = (userLocation, restaurantLocation) => {
+  if (!userLocation || !restaurantLocation) return null;
+
+  const toRad = (value) => (value * Math.PI) / 180;
+  const R = 3958.8; // Radius of the Earth in miles
+
+  const lat1 = userLocation.lat;
+  const lon1 = userLocation.lng;
+  const lat2 = restaurantLocation.lat;
+  const lon2 = restaurantLocation.lng;
+
+  const dLat = toRad(lat2 - lat1);
+  const dLon = toRad(lon2 - lon1);
+
+  const a =
+    Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+    Math.cos(toRad(lat1)) *
+      Math.cos(toRad(lat2)) *
+      Math.sin(dLon / 2) *
+      Math.sin(dLon / 2);
+
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  return (R * c).toFixed(1); // distance in miles
 };

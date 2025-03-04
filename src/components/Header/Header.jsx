@@ -22,7 +22,7 @@ function Header({ handleAddModalClick, setRestaurantItems }) {
   // fetch user's location on component mount
   useEffect(() => {
     fetchUserLocation()
-      .then((userLocation) => setUserLocation(userLocation))
+      .then((locationData) => setUserLocation(locationData.formattedLocation))
       .catch((error) => {
         console.error("Error fetching user location:", error);
         setUserLocation("User's location unavailable");
@@ -42,7 +42,7 @@ function Header({ handleAddModalClick, setRestaurantItems }) {
         <div className="header__date-and-location-container">
           <p className="header__date">{currentDate}</p>
           {/* {userLocation} => replace "LOCATION" below this with this value */}
-          <p className="header__location">LOCATION</p>
+          <p className="header__location">{userLocation}</p>
         </div>
       </div>
 

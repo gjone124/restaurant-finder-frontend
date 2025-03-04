@@ -20,6 +20,11 @@ function ItemModal({
         <p className="item-modal__restaurant-cuisine">{item.cuisine} Cuisine</p>
         <p className="item-modal__restaurant-address">{item.address}</p>
         <p className="item-modal__restaurant-website">{item.website}</p>
+        {item.distance && (
+          <p className="item-modal__distance">
+            Distance From User in Miles: {item.distance}
+          </p>
+        )}
         <button
           className="item-modal__delete-button"
           onClick={handleDeleteItemModalClick}
