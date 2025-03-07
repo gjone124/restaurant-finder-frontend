@@ -7,6 +7,7 @@ function ItemModal({
   activeModal,
   item,
   handleDeleteItemModalClick,
+  showDeleteButton,
 }) {
   return (
     <Modal name={name} type="item" onClose={onClose} activeModal={activeModal}>
@@ -25,12 +26,15 @@ function ItemModal({
             Distance From User in Miles: {item.distance}
           </p>
         )}
-        <button
-          className="item-modal__delete-button"
-          onClick={handleDeleteItemModalClick}
-        >
-          Delete item
-        </button>
+
+        {showDeleteButton && ( // conditionally render delete button only on profile page
+          <button
+            className="item-modal__delete-button"
+            onClick={handleDeleteItemModalClick}
+          >
+            Delete item
+          </button>
+        )}
       </div>
     </Modal>
   );

@@ -1,6 +1,6 @@
 // React elements
 import { useState, useEffect } from "react";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useLocation } from "react-router-dom";
 
 // Components
 import Header from "../Header/Header";
@@ -25,6 +25,9 @@ function App() {
   const [selectedCard, setSelectedCard] = useState({});
   const [restaurantItems, setRestaurantItems] = useState([]);
   const [searchResults, setSearchResults] = useState([]);
+
+  // get current location for routing
+  const location = useLocation();
 
   const handleAddModalClick = () => {
     setActiveModal("add-restaurant-form");
@@ -133,6 +136,7 @@ function App() {
         item={selectedCard}
         onClose={closeActiveModal}
         handleDeleteItemModalClick={handleDeleteItemModalClick}
+        showDeleteButton={location.pathname === "/profile"} // show delete button only on profile page
       />
       <DeleteItemModal
         name="delete"
