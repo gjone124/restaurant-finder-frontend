@@ -9,7 +9,7 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d dist --repo https://github.com/gjone124/restaurant-finder-frontend.git"
+    "deploy": "gh-pages -d dist --repo https://github.com/gjone124/restaurant-finder-frontend.git --cache-dir .gh-pages-cache"
   },
   "dependencies": {
     "react": "^18.3.1",
