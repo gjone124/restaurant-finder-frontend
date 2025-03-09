@@ -16,6 +16,7 @@ import EditProfileModal from "../EditProfileModal/EditProfileModal.jsx";
 
 // Utilities
 import { getItems, postItem, deleteItem } from "../../utils/api.js";
+import { defaultRestaurantItems } from "../../utils/constants.js";
 
 // Styling for App.jsx
 import "./App.css";
@@ -59,38 +60,70 @@ function App() {
       });
   }
 
-  // fetch to server, add item to server, & then add item to the DOM
+  // add item to state variable (will add item to server for full stack application)
   function handleAddItemModalSubmit(item) {
     const addItemRequest = () => {
-      return postItem(item).then((data) => {
-        setRestaurantItems([data, ...restaurantItems]);
-      });
+      // generate unique ID for new item
+      const newItem = {
+        ...item,
+        _id: Math.random().toString(36).substr(2, 9),
+      };
+      setRestaurantItems([newItem, ...restaurantItems]);
     };
+
     return handleSubmit(addItemRequest);
   }
 
-  function handleDeleteItemModalSubmit(item) {
+  // [method for full stack application]
+  // function handleAddItemModalSubmit(item) {
+  //   const addItemRequest = () => {
+  //     return postItem(item).then((data) => {
+  //       setRestaurantItems([data, ...restaurantItems]);
+  //     });
+  //   };
+  //   return handleSubmit(addItemRequest);
+  // }
+
+  function handleDeleteItemModalSubmit() {
     const deleteRequest = () => {
-      return deleteItem(selectedCard._id).then(() => {
-        setRestaurantItems(
-          restaurantItems.filter((restaurantItem) => {
-            return restaurantItem !== selectedCard;
-          })
-        );
-      });
+      setRestaurantItems(
+        restaurantItems.filter((restaurantItem) => {
+          return restaurantItem._id !== selectedCard._id;
+        })
+      );
     };
 
     return handleSubmit(deleteRequest);
   }
 
-  // get items
+  // [method for full stack application]
+  // function handleDeleteItemModalSubmit(item) {
+  //   const deleteRequest = () => {
+  //     return deleteItem(selectedCard._id).then(() => {
+  //       setRestaurantItems(
+  //         restaurantItems.filter((restaurantItem) => {
+  //           return restaurantItem !== selectedCard;
+  //         })
+  //       );
+  //     });
+  //   };
+
+  //   return handleSubmit(deleteRequest);
+  // }
+
+  // load default restaurant items from constants file
   useEffect(() => {
-    getItems()
-      .then((data) => {
-        setRestaurantItems(data.reverse());
-      })
-      .catch(console.error);
+    setRestaurantItems(defaultRestaurantItems);
   }, []);
+
+  // load restaurant items by fetching from db.json file [method for full stack application]
+  // useEffect(() => {
+  //   getItems()
+  //     .then((data) => {
+  //       setRestaurantItems(data.reverse());
+  //     })
+  //     .catch(console.error);
+  // }, []);
 
   return (
     <div className="page">

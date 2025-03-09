@@ -20,8 +20,22 @@ function RestaurantSection({
           + Add New
         </button>
       </div>
-      <ul className="restaurant-section__items">
+
+      {/* [for full stack application] */}
+      {/* <ul className="restaurant-section__items">
         {restaurantItems.map((selectedItem) => {
+          return (
+            <ItemCard
+              key={selectedItem._id}
+              item={selectedItem}
+              onCardClick={onCardClick}
+            />
+          );
+        })}
+      </ul> */}
+
+      <ul className="restaurant-section__items">
+        {defaultRestaurantItems.map((selectedItem) => {
           return (
             <ItemCard
               key={selectedItem._id}

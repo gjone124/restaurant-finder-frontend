@@ -5,7 +5,8 @@ import "./Header.css";
 import logo from "../../assets/logo.svg";
 import avatar from "../../assets/avatar.svg";
 import SearchBarForm from "../SearchBarForm/SearchBarForm";
-import { fetchUserLocation } from "../../utils/googlePlacesApi";
+// import { fetchUserLocation } from "../../utils/googlePlacesApi";
+import { fetchUserLocation } from "../../utils/locationService";
 
 function Header({ handleAddModalClick, setRestaurantItems }) {
   const [userLocation, setUserLocation] = useState(
@@ -19,10 +20,22 @@ function Header({ handleAddModalClick, setRestaurantItems }) {
 
   const currentUrl = useLocation(); // get current Url path (or page route)
 
-  // fetch user's location on component mount
+  // fetch user's location on component mount (using Google Places API)
+  // useEffect(() => {
+  //   fetchUserLocation()
+  //     .then((locationData) => setUserLocation(locationData.formattedLocation))
+  //     .catch((error) => {
+  //       console.error("Error fetching user location:", error);
+  //       setUserLocation("User's location unavailable");
+  //     });
+  // }, []);
+
+  // fetch user's location on component mount (using Open Street Map Overpass API)
   useEffect(() => {
     fetchUserLocation()
-      .then((locationData) => setUserLocation(locationData.formattedLocation))
+      .then((locationData) => {
+        setUserLocation(locationData.formattedLocation);
+      })
       .catch((error) => {
         console.error("Error fetching user location:", error);
         setUserLocation("User's location unavailable");
