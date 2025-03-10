@@ -1,0 +1,48 @@
+.modal__content_type_delete {
+  width: 100%;
+  max-width: 670px;
+  height: 100%;
+  max-height: 280px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 60px 151px;
+}
+
+.modal__close-button_type_delete {
+  background-color: #000000;
+  opacity: 0.3;
+}
+
+.modal__close-button_type_delete:hover {
+  opacity: 1;
+}
+
+.delete-modal__confirmation {
+  font-family: "Cabinet Grotesk", sans-serif;
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 1.2;
+  color: #000000;
+  text-align: center;
+  margin: 0 auto;
+  padding: 0;
+}
+
+.delete-modal__button {
+  font-family: "Cabinet Grotesk", sans-serif;
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 1.2;
+  color: #000000;
+  background: none;
+  border: none;
+  margin: 24px 0 0;
+  padding: 0;
+  cursor: pointer;
+}
+
+.delete-modal__button_type_delete {
+  color: #ff4d00;
+  margin: 40px 0 0;
+}

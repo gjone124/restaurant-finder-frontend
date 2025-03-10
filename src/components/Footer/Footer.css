@@ -1,0 +1,31 @@
+.footer {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 80px;
+  justify-self: end;
+  width: 100%;
+}
+
+.footer__credentials {
+  font-family: "Cabinet Grotesk", sans-serif;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 1.25;
+  margin: 0;
+  padding: 0;
+}
+
+.footer__date {
+  font-family: "Cabinet Grotesk", sans-serif;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 1.25;
+  margin: 0;
+  padding: 0;
+}
+
+@media screen and (width < 800px) {
+  .footer {
+    margin-top: 40px;
+  }
+}

@@ -1,8 +1,33 @@
-# React + Vite
+# Final Project: Restaurant Finder Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+**Procedures To Run Program**
 
-Currently, two official plugins are available:
+1)it's necessary to have 3 routes running at once to have it run properly
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+2)open folder titled "restaurant-finder-frontend" in Visual Studio Code
+
+3)to make sure necessary packages are installed for "restaurant-finder-frontend", run in the terminal "npm install" & press "Enter"
+
+4)run "npm run dev" in the terminal for "restaurant-finder-frontend" & press "Enter"
+
+5)the program should automatically run on your designated default browser at "localhost:3000"
+
+6)for the 2nd route, split the terminal for "restaurant-finder-frontend" to create a 2nd terminal
+
+7)run "json-server --watch db.json --id \_id --port 3001" (in 2nd terminal)
+
+8)for the 3rd route to run, open "restaurant-finder-backend"
+
+9)run "npm run dev" in the terminal for "restaurant-finder-backend" & press "Enter"<br><br><br>
+
+**Link To GitHub Pages For This Project**
+
+https://gjone124.github.io/restaurant-finder-frontend/
+
+**Link To Back End Application Of This Project**
+
+https://github.com/gjone124/restaurant-finder-backend
+
+**Future Modifications**
+
+I plan to fully implement the backend for this project like the WTWR project does.
