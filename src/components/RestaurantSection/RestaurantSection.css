@@ -1,0 +1,50 @@
+.restaurant-section {
+  width: 100%;
+  margin: auto;
+}
+
+.restaurant-section__header {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.restaurant-section__title {
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.restaurant-section__items {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+  gap: 21px;
+  width: 100%;
+}
+
+.restaurant-section__button {
+  font-family: "Cabinet Grotesk", sans-serif;
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 1.24;
+  color: #00000099;
+  padding: 0;
+  border: none;
+  background: none;
+  cursor: pointer;
+}
+
+.restaurant-section__button:hover {
+  color: #000000;
+}
+
+@media screen and (width < 800px) {
+  .restaurant-section__header {
+    gap: 16px;
+    justify-content: space-between;
+  }
+}

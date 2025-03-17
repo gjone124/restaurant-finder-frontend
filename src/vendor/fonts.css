@@ -1,0 +1,22 @@
+/* font-styles downloaded from cdnfonts.com */
+
+@font-face {
+  font-family: "Cabinet Grotesk";
+  font-weight: 500;
+  font-style: normal;
+  src: url("./fonts/CabinetGrotesk-Medium.otf") format("opentype");
+}
+
+@font-face {
+  font-family: "Cabinet Grotesk";
+  font-weight: 700;
+  font-style: normal;
+  src: url("./fonts/CabinetGrotesk-Bold.otf") format("opentype");
+}
+
+@font-face {
+  font-family: "Cabinet Grotesk";
+  font-weight: 900;
+  font-style: normal;
+  src: url("./fonts/CabinetGrotesk-Black.otf") format("opentype");
+}

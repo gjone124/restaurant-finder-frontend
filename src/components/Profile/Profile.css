@@ -1,0 +1,23 @@
+.profile {
+  display: flex;
+  gap: 100px;
+  min-height: 500px;
+  width: 100%;
+}
+
+.profile__restaurant-section {
+  flex-grow: 1;
+  width: 100%;
+}
+
+@media screen and (width < 800px) {
+  .profile {
+    flex-direction: column;
+    gap: 4px;
+  }
+  .profile__side-bar {
+    border-top: 1px solid black;
+    border-bottom: 1px solid black;
+    padding: 20px 0;
+  }
+}
