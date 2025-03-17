@@ -1,4 +1,5 @@
-// locationService.js
+import { handleServerResponse } from "./api.js";
+
 // Get user's location using browser geolocation and OpenStreetMap reverse geocoding
 
 /**
@@ -24,7 +25,7 @@ export const fetchUserLocation = async () => {
               `https://nominatim.openstreetmap.org/reverse?lat=${latitude}&lon=${longitude}&format=json`
             );
 
-            const data = await response.json();
+            const data = await handleServerResponse(response);
 
             if (!data || !data.address) {
               console.error("No location data found");

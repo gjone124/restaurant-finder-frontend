@@ -17,6 +17,9 @@ import EditProfileModal from "../EditProfileModal/EditProfileModal.jsx";
 // Utilities
 import { getItems, postItem, deleteItem } from "../../utils/api.js";
 import { defaultRestaurantItems } from "../../utils/constants.js";
+import { fetchOSMRestaurantData } from "../../utils/openStreetMapOverpassApi";
+import { fetchUserLocation } from "../../utils/locationService";
+import { coordinates } from "../../utils/constants";
 
 // Styling for App.jsx
 import "./App.css";
@@ -26,10 +29,15 @@ function App() {
   const [selectedCard, setSelectedCard] = useState({});
   const [restaurantItems, setRestaurantItems] = useState([]);
   const [searchResults, setSearchResults] = useState([]);
+  const [isMobileMenuOpened, setMobileMenuOpened] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [isSearching, setIsSearching] = useState(false);
+  const [userLocation, setUserLocation] = useState(null);
 
   // get current location for routing
   const location = useLocation();
 
+  /* Modal Handlers */
   const handleAddModalClick = () => {
     setActiveModal("add-restaurant-form");
   };
@@ -51,6 +59,10 @@ function App() {
     setActiveModal("");
   };
 
+  const toggleMobileMenu = () => {
+    setMobileMenuOpened(!isMobileMenuOpened);
+  };
+
   /* Submit Handlers */
   function handleSubmit(request) {
     return request()
@@ -60,7 +72,7 @@ function App() {
       });
   }
 
-  // add item to state variable (will add item to server for full stack application)
+  // add item to state variable
   function handleAddItemModalSubmit(item) {
     const addItemRequest = () => {
       // generate unique ID for new item
@@ -74,16 +86,6 @@ function App() {
     return handleSubmit(addItemRequest);
   }
 
-  // [method for full stack application]
-  // function handleAddItemModalSubmit(item) {
-  //   const addItemRequest = () => {
-  //     return postItem(item).then((data) => {
-  //       setRestaurantItems([data, ...restaurantItems]);
-  //     });
-  //   };
-  //   return handleSubmit(addItemRequest);
-  // }
-
   function handleDeleteItemModalSubmit() {
     const deleteRequest = () => {
       setRestaurantItems(
@@ -96,41 +98,98 @@ function App() {
     return handleSubmit(deleteRequest);
   }
 
-  // [method for full stack application]
-  // function handleDeleteItemModalSubmit(item) {
-  //   const deleteRequest = () => {
-  //     return deleteItem(selectedCard._id).then(() => {
-  //       setRestaurantItems(
-  //         restaurantItems.filter((restaurantItem) => {
-  //           return restaurantItem !== selectedCard;
-  //         })
-  //       );
-  //     });
-  //   };
+  // Handle search query change
+  const handleSearchQueryChange = (query) => {
+    setSearchQuery(query);
+  };
 
-  //   return handleSubmit(deleteRequest);
-  // }
+  // Search restaurants function - moved from SearchBarForm
+  const searchRestaurants = async (event) => {
+    if (event) {
+      event.preventDefault();
+    }
 
-  // load default restaurant items from constants file
+    if (!searchQuery) {
+      alert("Please enter a search query.");
+      return;
+    }
+
+    setIsSearching(true);
+
+    try {
+      // Get user coordinates or fallback to defaults
+      const userCoords = userLocation || {
+        lat: coordinates.latitude,
+        lng: coordinates.longitude,
+      };
+
+      // Search restaurants using OpenStreetMap
+      const results = await fetchOSMRestaurantData(
+        userCoords.lat,
+        userCoords.lng,
+        searchQuery
+      );
+
+      if (results.length === 0) {
+        alert("No restaurants found. Please try a different search.");
+        setIsSearching(false);
+        return;
+      }
+
+      console.log(`Found ${results.length} restaurants via OpenStreetMap.`);
+      setSearchResults(results);
+    } catch (error) {
+      console.error("Error searching restaurants:", error);
+      alert(
+        "An error occurred while searching for restaurants. Please try again."
+      );
+    } finally {
+      setIsSearching(false);
+    }
+  };
+
+  // fetch user's location on component mount (using Open Street Map Overpass API)
+  useEffect(() => {
+    const getUserLocation = async () => {
+      try {
+        // use location service to access user's current location
+        const locationData = await fetchUserLocation();
+        setUserLocation({
+          lat: locationData.coordinates.lat,
+          lng: locationData.coordinates.lng,
+          formattedLocation: locationData.formattedLocation,
+        });
+      } catch (error) {
+        console.error("Error getting location:", error);
+        // use default Washington DC coordinates as fallback
+        setUserLocation({
+          lat: coordinates.latitude,
+          lng: coordinates.longitude,
+          formattedLocation: "Washington, DC, USA",
+        });
+      }
+    };
+
+    getUserLocation();
+  }, []);
+
+  // load default restaurant items from constants file on mmount
   useEffect(() => {
     setRestaurantItems(defaultRestaurantItems);
   }, []);
-
-  // load restaurant items by fetching from db.json file [method for full stack application]
-  // useEffect(() => {
-  //   getItems()
-  //     .then((data) => {
-  //       setRestaurantItems(data.reverse());
-  //     })
-  //     .catch(console.error);
-  // }, []);
 
   return (
     <div className="page">
       <div className="page__content">
         <Header
           handleAddModalClick={handleAddModalClick}
-          setRestaurantItems={setSearchResults}
+          searchQuery={searchQuery}
+          onSearchQueryChange={handleSearchQueryChange}
+          onSearchSubmit={searchRestaurants}
+          isSearching={isSearching}
+          userLocation={userLocation?.formattedLocation}
+          isMenuOpen={isMobileMenuOpened}
+          onMenuOpen={toggleMobileMenu}
         />
 
         <Routes>

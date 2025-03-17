@@ -1,17 +1,21 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Link, useLocation } from "react-router-dom";
 
 import "./Header.css";
 import logo from "../../assets/logo.svg";
 import avatar from "../../assets/avatar.svg";
 import SearchBarForm from "../SearchBarForm/SearchBarForm";
-// import { fetchUserLocation } from "../../utils/googlePlacesApi";
-import { fetchUserLocation } from "../../utils/locationService";
 
-function Header({ handleAddModalClick, setRestaurantItems }) {
-  const [userLocation, setUserLocation] = useState(
-    "Fetching user's location..."
-  );
+function Header({
+  handleAddModalClick,
+  searchQuery,
+  onSearchQueryChange,
+  onSearchSubmit,
+  isSearching,
+  userLocation,
+  isMenuOpen,
+  onMenuOpen,
+}) {
   const currentDate = new Date().toLocaleString("default", {
     month: "long",
     day: "numeric",
@@ -20,69 +24,82 @@ function Header({ handleAddModalClick, setRestaurantItems }) {
 
   const currentUrl = useLocation(); // get current Url path (or page route)
 
-  // fetch user's location on component mount (using Google Places API)
-  // useEffect(() => {
-  //   fetchUserLocation()
-  //     .then((locationData) => setUserLocation(locationData.formattedLocation))
-  //     .catch((error) => {
-  //       console.error("Error fetching user location:", error);
-  //       setUserLocation("User's location unavailable");
-  //     });
-  // }, []);
-
-  // fetch user's location on component mount (using Open Street Map Overpass API)
-  useEffect(() => {
-    fetchUserLocation()
-      .then((locationData) => {
-        setUserLocation(locationData.formattedLocation);
-      })
-      .catch((error) => {
-        console.error("Error fetching user location:", error);
-        setUserLocation("User's location unavailable");
-      });
-  }, []);
-
   return (
     <header className="header">
-      <div className="header__info">
-        <Link to="/">
-          <img
-            className="header__logo"
-            src={logo}
-            alt="Restaurant Finder Logo"
-          />
-        </Link>
-        <div className="header__date-and-location-container">
-          <p className="header__date">{currentDate}</p>
-          {/* {userLocation} => replace "LOCATION" below this with this value */}
-          <p className="header__location">{userLocation}</p>
+      {/* first row includes website logo, date, location,
+      add restaurant button, username, and username logo */}
+      <div className="header__top-row">
+        <div className="header__info">
+          <Link to="/">
+            <img
+              className="header__logo"
+              src={logo}
+              alt="Restaurant Finder Logo"
+            />
+          </Link>
+          <div className="header__date-and-location-container">
+            <p className="header__date">{currentDate}</p>
+            <p className="header__location">
+              {userLocation || "Fetching user's location..."}
+            </p>
+          </div>
+        </div>
+
+        <div
+          className={`header__menu ${isMenuOpen ? "header__menu_opened" : ""}`}
+        >
+          <button
+            type="button"
+            className={`header__menu-button ${
+              isMenuOpen ? "header__menu-button_opened" : ""
+            }`}
+            onClick={onMenuOpen}
+          ></button>
+
+          {/* conditionally render "Add Restaurant" button based on current path
+          so it only displays on Profile page */}
+          {currentUrl.pathname !== "/" && (
+            <button
+              type="button"
+              className={`header__add-restaurant-button ${
+                !isMenuOpen
+                  ? "header__add-restaurant-button_type_menu-closed"
+                  : ""
+              }`}
+              onClick={handleAddModalClick}
+            >
+              + Add Restaurant
+            </button>
+          )}
+
+          <Link to="/profile" className="header__link">
+            <div
+              className={`header__user-container ${
+                !isMenuOpen ? "header__user-container_type_menu-closed" : ""
+              }`}
+            >
+              <p className="header__username">Terrence Tegegne</p>
+              <img
+                src={avatar}
+                alt="default avatar"
+                className="header__avatar"
+              />
+            </div>
+          </Link>
         </div>
       </div>
-
-      {/* conditionally render SearchBarForm based on current path
-      so it only displays on Main page */}
-      {currentUrl.pathname !== "/profile" && (
-        <SearchBarForm setRestaurantItems={setRestaurantItems} />
-      )}
-
-      {/* conditionally render "Add Restaurant" button based on current path
-      so it only displays on Profile page */}
-      {currentUrl.pathname !== "/" && (
-        <button
-          onClick={handleAddModalClick}
-          type="button"
-          className="header__add-restaurant-button"
-        >
-          + Add Restaurant
-        </button>
-      )}
-
-      <Link to="/profile" className="header__link">
-        <div className="header__user-container">
-          <p className="header__username">Terrence Tegegne</p>
-          <img src={avatar} alt="default avatar" className="header__avatar" />
+      {/* conditionally render SearchBarForm on 2nd row based on current path
+       so it only displays on Main page */}
+      {currentUrl.pathname === "/" && (
+        <div className="header__bottom-row">
+          <SearchBarForm
+            searchQuery={searchQuery}
+            onSearchQueryChange={onSearchQueryChange}
+            onSearchSubmit={onSearchSubmit}
+            isSearching={isSearching}
+          />
         </div>
-      </Link>
+      )}
     </header>
   );
 }

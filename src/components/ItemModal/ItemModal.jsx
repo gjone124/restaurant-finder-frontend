@@ -14,25 +14,27 @@ function ItemModal({
       <img
         src={item.image}
         alt={item.name}
-        className="item-modal__restaurant-image"
+        className="modal__item-modal-restaurant-image"
       />
-      <div className="item-modal__info">
-        <h2 className="item-modal__restaurant-name">{item.name}</h2>
-        <p className="item-modal__restaurant-cuisine">{item.cuisine} Cuisine</p>
-        <p className="item-modal__restaurant-address">{item.address}</p>
-        <p className="item-modal__restaurant-website">{item.website}</p>
+      <div className="modal__item-modal-info">
+        <h2 className="modal__item-modal-restaurant-name">{item.name}</h2>
+        <p className="modal__item-modal-restaurant-cuisine">
+          {item.cuisine} Cuisine
+        </p>
+        <p className="modal__item-modal-restaurant-address">{item.address}</p>
+        <p className="modal__item-modal-restaurant-website">{item.website}</p>
         {item.distance && (
-          <p className="item-modal__distance">
+          <p className="modal__item-modal-distance">
             Distance From User in Miles: {item.distance}
           </p>
         )}
 
         {showDeleteButton && ( // conditionally render delete button only on profile page
           <button
-            className="item-modal__delete-button"
+            className="modal__item-modal-delete-button"
             onClick={handleDeleteItemModalClick}
           >
-            Delete item
+            Delete Item
           </button>
         )}
       </div>

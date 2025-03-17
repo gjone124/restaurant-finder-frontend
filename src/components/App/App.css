@@ -11,6 +11,11 @@
 .page__content {
   max-width: 1360px;
   margin: 0 auto;
-  padding: 0 20px;
   width: 100%;
+}
+
+@media screen and (width < 800px) {
+  .page {
+    padding: 18px 16px 20px;
+  }
 }

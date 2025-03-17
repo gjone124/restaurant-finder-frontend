@@ -9,7 +9,8 @@ function Main({ onCardClick, restaurantItems }) {
         {restaurantItems.length > 0 ? (
           <>
             <p className="main__text">
-              Based on your search, here are the restaurants we found:
+              Based on your search and current location, here are the 6 closest
+              restaurants to you from closest to farthest:
             </p>
             <ul className="main__items">
               {restaurantItems
@@ -28,7 +29,9 @@ function Main({ onCardClick, restaurantItems }) {
           </>
         ) : (
           <div className="main__empty-state">
-            <h2>Welcome to Restaurant Finder</h2>
+            <h1 className="main__empty-state-header">
+              Welcome to Restaurant Finder
+            </h1>
             <p>Search for restaurants above to get started</p>
           </div>
         )}

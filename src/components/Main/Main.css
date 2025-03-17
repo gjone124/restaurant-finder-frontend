@@ -1,5 +1,6 @@
 .main {
   width: 100%;
+  margin: auto;
 }
 
 .main__items {
@@ -9,4 +10,8 @@
   padding: 0;
   list-style-type: none;
   gap: 21px;
+}
+
+.main__empty-state-header {
+  font-size: 25px;
 }

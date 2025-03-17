@@ -10,9 +10,9 @@ function RestaurantSection({
   return (
     <div className="restaurant-section">
       <div className="restaurant-section__header">
-        <p className="restaurant-section__title">
+        <h1 className="restaurant-section__title">
           Restaurants That Interest You
-        </p>
+        </h1>
         <button
           className={"restaurant-section__button"}
           onClick={handleAddModalClick}
@@ -20,19 +20,6 @@ function RestaurantSection({
           + Add New
         </button>
       </div>
-
-      {/* [for full stack application] */}
-      {/* <ul className="restaurant-section__items">
-        {restaurantItems.map((selectedItem) => {
-          return (
-            <ItemCard
-              key={selectedItem._id}
-              item={selectedItem}
-              onCardClick={onCardClick}
-            />
-          );
-        })}
-      </ul> */}
 
       <ul className="restaurant-section__items">
         {defaultRestaurantItems.map((selectedItem) => {

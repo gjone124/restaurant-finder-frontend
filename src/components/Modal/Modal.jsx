@@ -22,7 +22,7 @@ function Modal({ name, type, onClose, activeModal, children }) {
 
   return (
     <div
-      className={`modal modal__type_${type} ${
+      className={`modal modal_type_${type} ${
         activeModal === name && "modal_opened"
       }`}
       onMouseDown={onOverlay}

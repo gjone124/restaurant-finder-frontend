@@ -10,6 +10,14 @@
   width: 100%;
 }
 
-.profile__side-bar {
-  flex: 0 0 229px;
+@media screen and (width < 800px) {
+  .profile {
+    flex-direction: column;
+    gap: 4px;
+  }
+  .profile__side-bar {
+    border-top: 1px solid black;
+    border-bottom: 1px solid black;
+    padding: 20px 0;
+  }
 }

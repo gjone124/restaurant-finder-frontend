@@ -1,5 +1,6 @@
 .restaurant-section {
   width: 100%;
+  margin: auto;
 }
 
 .restaurant-section__header {
@@ -11,6 +12,7 @@
 }
 
 .restaurant-section__title {
+  font-size: 20px;
   font-weight: 700;
 }
 
@@ -38,4 +40,11 @@
 
 .restaurant-section__button:hover {
   color: #000000;
+}
+
+@media screen and (width < 800px) {
+  .restaurant-section__header {
+    gap: 16px;
+    justify-content: space-between;
+  }
 }

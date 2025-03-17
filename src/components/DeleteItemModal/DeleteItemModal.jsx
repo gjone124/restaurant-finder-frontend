@@ -15,17 +15,17 @@ function DeleteItemModal({
       onClose={onClose}
       activeModal={activeModal}
     >
-      <p className="delete-modal__confirmation">
+      <p className="modal__delete-item-modal-confirmation">
         Are you sure you want to delete this item? <br /> This action is
         irreversible.
       </p>
       <button
-        className="delete-modal__button delete-modal__button_type_delete"
+        className="modal__delete-item-modal-button modal__delete-item-modal-button_type_delete"
         onClick={onDeleteItemModalSubmit}
       >
         Yes, delete item
       </button>
-      <button className="delete-modal__button" onClick={onClose}>
+      <button className="modal__delete-item-modal-button" onClick={onClose}>
         Cancel
       </button>
     </Modal>
