@@ -9,8 +9,7 @@ function Main({ onCardClick, restaurantItems }) {
         {restaurantItems.length > 0 ? (
           <>
             <p className="main__text">
-              Based on your search and current location, here are the 6 closest
-              restaurants to you from closest to farthest:
+              Based on your search, here are the results:
             </p>
             <ul className="main__items">
               {restaurantItems
